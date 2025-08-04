@@ -9,7 +9,8 @@ export type NavigationPage =
   | 'challenges'
   | 'team'
   | 'profile'
-  | 'ai-coach';
+  | 'ai-coach'
+  | 'pricing';
 
 interface NavigationContextType {
   currentPage: NavigationPage;

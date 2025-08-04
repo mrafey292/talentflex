@@ -11,6 +11,7 @@ import ChallengesPage from "@/components/challenges/ChallengesPage";
 import TeamPage from "@/components/team/TeamPage";
 import ProfilePage from "@/components/profile/ProfilePage";
 import AICoachPage from "@/components/ai-coach/AICoachPage";
+import PricingPage from "@/components/layout/PricingPage";
 
 function AppContent() {
   const { currentPage } = useNavigation();
@@ -73,6 +74,13 @@ function AppContent() {
           <div className="min-h-screen bg-[#010917] flex">
             <Sidebar />
             <AICoachPage />
+          </div>
+        );
+      case 'pricing':
+        return (
+          <div className="min-h-screen bg-[#010917] flex">
+            <Sidebar />
+            <PricingPage onBack={() => {}} />
           </div>
         );
       default:

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigation } from '@/contexts/NavigationContext';
+import ChangePasswordModal from './ChangePasswordModal';
 
 interface EditProfilePageProps {
   onClose: () => void;
@@ -9,6 +10,7 @@ interface EditProfilePageProps {
 
 export default function EditProfilePage({ onClose }: EditProfilePageProps) {
   const { setCurrentPage } = useNavigation();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: 'John Carl',
     role: 'Graphic Designer',
@@ -150,7 +152,10 @@ export default function EditProfilePage({ onClose }: EditProfilePageProps) {
                     disabled
                     className="flex-1 px-4 py-3 bg-[#F3F3F3] border-2 border-[#D3D3D3] rounded-lg text-base text-[#05060F]"
                   />
-                  <button className="px-4 py-3 border border-[#D3D3D3] rounded-lg text-sm font-bold text-[#1A1A1A] hover:bg-gray-50 transition-colors">
+                  <button 
+                    onClick={() => setIsPasswordModalOpen(true)}
+                    className="px-4 py-3 border border-[#D3D3D3] rounded-lg text-sm font-bold text-[#1A1A1A] hover:bg-gray-50 transition-colors"
+                  >
                     Change Password
                   </button>
                 </div>
@@ -320,6 +325,12 @@ export default function EditProfilePage({ onClose }: EditProfilePageProps) {
           </div>
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      <ChangePasswordModal 
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+      />
     </div>
   );
 }

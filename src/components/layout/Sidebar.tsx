@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useNavigation, type NavigationPage } from "@/contexts/NavigationContext";
+import { useRouter, usePathname } from "next/navigation";
 
 interface SidebarProps {
   className?: string;
@@ -61,6 +62,22 @@ const generalItems = [
 
 export default function Sidebar({ className }: SidebarProps) {
   const { currentPage, setCurrentPage } = useNavigation();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigation = (pageId: NavigationPage) => {
+    // If we're on a course page or any page other than the main page, navigate to home first
+    if (pathname !== '/') {
+      router.push('/');
+      // Set a small timeout to ensure navigation completes before updating state
+      setTimeout(() => {
+        setCurrentPage(pageId);
+      }, 100);
+    } else {
+      // If we're already on the main page, just update the state
+      setCurrentPage(pageId);
+    }
+  };
 
   return (
     <div className={cn(
@@ -87,7 +104,7 @@ export default function Sidebar({ className }: SidebarProps) {
               {mainMenuItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => setCurrentPage(item.id)}
+                  onClick={() => handleNavigation(item.id)}
                   className={cn(
                     "w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors",
                     currentPage === item.id 
@@ -121,7 +138,7 @@ export default function Sidebar({ className }: SidebarProps) {
               {generalItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => setCurrentPage(item.id)}
+                  onClick={() => handleNavigation(item.id)}
                   className={cn(
                     "w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors",
                     currentPage === item.id 
@@ -170,9 +187,12 @@ export default function Sidebar({ className }: SidebarProps) {
                   Unlock and maximize your experience!
                 </p>
               </div>
-              <button className="w-full bg-white text-[#1A1A1A] font-bold text-sm px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors">
-                Upgrade Now
-              </button>
+                          <button 
+              className="w-full px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition-colors"
+              onClick={() => handleNavigation('pricing')}
+            >
+              Upgrade Now
+            </button>
             </div>
           </div>
         </div>
