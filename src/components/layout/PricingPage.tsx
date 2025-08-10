@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TopBar from "@/components/layout/TopBar";
-import { useNavigation } from "@/contexts/NavigationContext";
 
 interface PricingPageProps {
   onBack: () => void;
@@ -28,12 +27,7 @@ interface PurchaseHistoryItem {
 }
 
 export default function PricingPage({ onBack }: PricingPageProps) {
-  const { setCurrentPage } = useNavigation();
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
-
-  useEffect(() => {
-    setCurrentPage('pricing');
-  }, [setCurrentPage]);
 
   const pricingPlans: PricingPlan[] = [
     {

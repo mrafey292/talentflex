@@ -1,8 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useNavigation } from "@/contexts/NavigationContext";
-import Sidebar from "../layout/Sidebar";
 import TopBar from "../layout/TopBar";
 import UserProfile from "./UserProfile";
 import TodoList from "./TodoList";
@@ -13,18 +10,8 @@ import ChallengeHub from "./ChallengeHub";
 import AIMarketplace from "./AIMarketplace";
 
 export default function Dashboard() {
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('dashboard');
-  }, [setCurrentPage]);
   return (
-    <div className="min-h-screen bg-[#010917] flex">
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Main Content */}
-      <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
+    <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
         {/* Top Bar */}
         <TopBar />
 
@@ -69,6 +56,5 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

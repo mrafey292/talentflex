@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useNavigation } from '@/contexts/NavigationContext';
 import { UsersIcon } from '@heroicons/react/24/outline';
 import { Challenge } from './ChallengeCard';
+import TopBar from '@/components/layout/TopBar';
 
 interface ChallengeDetailPageProps {
   challenge: Challenge;
@@ -11,11 +10,6 @@ interface ChallengeDetailPageProps {
 }
 
 export default function ChallengeDetailPage({ challenge, onBack }: ChallengeDetailPageProps) {
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('challenges');
-  }, [setCurrentPage]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -33,43 +27,11 @@ export default function ChallengeDetailPage({ challenge, onBack }: ChallengeDeta
   return (
     <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
       {/* Header */}
-      <div className="border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <button
-              onClick={onBack}
-              className="flex items-center justify-center w-12 h-12 border border-gray-200 rounded-full hover:bg-gray-50"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <h1 className="text-2xl font-bold text-gray-900">Challenge Course</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="bg-gradient-to-r from-pink-500 to-blue-500 text-white px-6 py-3 rounded-lg font-bold text-sm">
-              AI Career Coach
-            </button>
-            <div className="flex items-center gap-2">
-              <button className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 4V2M12 2L14 4M12 2L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3 16L5 14L7 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M17 16L19 14L21 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-              </button>
-              <button className="w-12 h-12 border border-gray-200 rounded-full flex items-center justify-center hover:bg-gray-50">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 8A6 6 0 0 0 6 8C6 7 6 9 6 9H18C18 9 18 7 18 8Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M13.73 21A2 2 0 0 1 12 22A2 2 0 0 1 10.27 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-              <div className="w-12 h-12 rounded-full bg-gray-200"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <TopBar 
+        title="Challenge Course" 
+        showBack={true} 
+        onBackClick={onBack}
+      />
 
       {/* Content */}
       <div className="px-8 py-8 max-w-none">

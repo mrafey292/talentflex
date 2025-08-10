@@ -3,8 +3,7 @@
 import TopBar from "@/components/layout/TopBar";
 import Sidebar from "@/components/layout/Sidebar";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useNavigation } from "@/contexts/NavigationContext";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface CoursePageProps {
@@ -13,15 +12,10 @@ interface CoursePageProps {
 
 export default function CoursePage({ params }: CoursePageProps) {
   const [selectedWeek, setSelectedWeek] = useState(2);
-  const { setCurrentPage } = useNavigation();
   const router = useRouter();
 
-  useEffect(() => {
-    setCurrentPage('skills');
-  }, [setCurrentPage]);
-
   const handleBackClick = () => {
-    router.push('/');
+    router.push('/skills');
   };
 
   return (

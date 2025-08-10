@@ -1,5 +1,5 @@
-import App from "@/components/App";
+import SignInPage from "@/components/auth/SignInPage";
 
 export default function Home() {
-  return <App />;
+  return <SignInPage />;
 }

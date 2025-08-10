@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AITool } from "./aiToolsData";
+import BackButton from "@/components/ui/BackButton";
 
 interface AIToolDetailModalProps {
   tool: AITool;
@@ -49,17 +50,7 @@ export default function AIToolDetailModal({ tool, isOpen, onClose }: AIToolDetai
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-[#EDEDED]">
           <div className="flex items-center gap-4">
-            <button 
-              onClick={onClose}
-              className="border border-[#EDEDED] rounded-full p-3 hover:bg-gray-50"
-            >
-              <Image
-                src="/icons/chevron-left.svg"
-                alt="Back"
-                width={24}
-                height={24}
-              />
-            </button>
+            <BackButton onClick={onClose} />
             <h1 className="text-2xl font-bold text-black">Detail AI Tools</h1>
           </div>
           <div className="flex items-center gap-3">

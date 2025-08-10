@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useNavigation, type NavigationPage } from "@/contexts/NavigationContext";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import PremiumUpgradeModal from "./PremiumUpgradeModal";
 
 interface SidebarProps {
   className?: string;
@@ -11,37 +13,37 @@ interface SidebarProps {
 
 const mainMenuItems = [
   {
-    id: 'dashboard' as NavigationPage,
+    href: '/dashboard',
     label: 'Dashboard',
     icon: '/icons/view-grid.svg',
   },
   {
-    id: 'jobs' as NavigationPage,
+    href: '/jobs',
     label: 'My Job',
     icon: '/icons/briefcase-sidebar.svg',
   },
   {
-    id: 'roadmap' as NavigationPage,
+    href: '/roadmap',
     label: 'Roadmap',
     icon: '/icons/paper-airplane.svg',
   },
   {
-    id: 'ai-marketplace' as NavigationPage,
+    href: '/ai-marketplace',
     label: 'AI Marketplace',
     icon: '/icons/magic.svg',
   },
   {
-    id: 'skills' as NavigationPage,
+    href: '/skills',
     label: 'Skills Hub',
     icon: '/icons/book-open-sidebar.svg',
   },
   {
-    id: 'challenges' as NavigationPage,
+    href: '/challenges',
     label: 'Challenge Hub',
     icon: '/icons/color-swatch-sidebar.svg',
   },
   {
-    id: 'team' as NavigationPage,
+    href: '/team',
     label: 'My Team',
     icon: '/icons/user-group.svg',
   },
@@ -49,34 +51,23 @@ const mainMenuItems = [
 
 const generalItems = [
   {
-    id: 'profile' as NavigationPage,
+    href: '/profile',
     label: 'My Profile',
     icon: '/icons/user.svg',
   },
   {
-    id: 'ai-coach' as NavigationPage,
+    href: '/ai-coach',
     label: 'AI Career Coach',
     icon: '/icons/magic.svg',
   },
 ];
 
 export default function Sidebar({ className }: SidebarProps) {
-  const { currentPage, setCurrentPage } = useNavigation();
-  const router = useRouter();
   const pathname = usePathname();
+  const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
 
-  const handleNavigation = (pageId: NavigationPage) => {
-    // If we're on a course page or any page other than the main page, navigate to home first
-    if (pathname !== '/') {
-      router.push('/');
-      // Set a small timeout to ensure navigation completes before updating state
-      setTimeout(() => {
-        setCurrentPage(pageId);
-      }, 100);
-    } else {
-      // If we're already on the main page, just update the state
-      setCurrentPage(pageId);
-    }
+  const isActiveRoute = (href: string) => {
+    return pathname === href;
   };
 
   return (
@@ -102,12 +93,12 @@ export default function Sidebar({ className }: SidebarProps) {
             </h3>
             <div className="space-y-1">
               {mainMenuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigation(item.id)}
+                <Link
+                  key={item.href}
+                  href={item.href}
                   className={cn(
                     "w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors",
-                    currentPage === item.id 
+                    isActiveRoute(item.href)
                       ? "bg-[#3D80F8] text-white" 
                       : "text-[#E2E2E2] hover:bg-gray-800"
                   )}
@@ -118,13 +109,13 @@ export default function Sidebar({ className }: SidebarProps) {
                     width={20}
                     height={20}
                     className={cn(
-                      currentPage === item.id ? "filter-white" : "filter-gray"
+                      isActiveRoute(item.href) ? "filter-white" : "filter-gray"
                     )}
                   />
                   <span className="text-base font-normal">
                     {item.label}
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -136,12 +127,12 @@ export default function Sidebar({ className }: SidebarProps) {
             </h3>
             <div className="space-y-1">
               {generalItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavigation(item.id)}
+                <Link
+                  key={item.href}
+                  href={item.href}
                   className={cn(
                     "w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors",
-                    currentPage === item.id 
+                    isActiveRoute(item.href)
                       ? "bg-[#3D80F8] text-white" 
                       : "text-[#E2E2E2] hover:bg-gray-800"
                   )}
@@ -152,13 +143,13 @@ export default function Sidebar({ className }: SidebarProps) {
                     width={20}
                     height={20}
                     className={cn(
-                      currentPage === item.id ? "filter-white" : "filter-gray"
+                      isActiveRoute(item.href) ? "filter-white" : "filter-gray"
                     )}
                   />
                   <span className="text-base font-normal">
                     {item.label}
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -189,7 +180,7 @@ export default function Sidebar({ className }: SidebarProps) {
               </div>
                           <button 
               className="w-full px-4 py-2 bg-gray-900 text-white text-xs font-medium rounded-lg hover:bg-gray-800 transition-colors"
-              onClick={() => handleNavigation('pricing')}
+              onClick={() => setIsPremiumModalOpen(true)}
             >
               Upgrade Now
             </button>
@@ -197,6 +188,14 @@ export default function Sidebar({ className }: SidebarProps) {
           </div>
         </div>
       </div>
+      
+      {/* Premium Upgrade Modal */}
+      {isPremiumModalOpen && (
+        <PremiumUpgradeModal 
+          isOpen={isPremiumModalOpen}
+          onClose={() => setIsPremiumModalOpen(false)} 
+        />
+      )}
     </div>
   );
 }

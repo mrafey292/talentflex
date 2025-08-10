@@ -3,9 +3,8 @@
 import Image from "next/image";
 import TopBar from "../layout/TopBar";
 import FilterModal from "./FilterModal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNavigation } from "@/contexts/NavigationContext";
 
 interface CourseCardProps {
   id: string;
@@ -110,11 +109,6 @@ function CourseCard({
 
 export default function SkillsPage() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('skills');
-  }, [setCurrentPage]);
   
   const myCourses = [
     {

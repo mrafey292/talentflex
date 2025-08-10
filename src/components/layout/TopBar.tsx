@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import BackButton from "@/components/ui/BackButton";
 import { useRouter } from "next/navigation";
 
 interface TopBarProps {
@@ -25,18 +26,7 @@ export default function TopBar({ title = "Dashboard", showBack = false, onBackCl
       {/* Title */}
       <div className="flex items-center gap-6">
         {showBack && (
-          <button 
-            onClick={handleBackClick}
-            className="border border-[#EDEDED] rounded-full p-3 hover:bg-gray-50 transition-colors"
-          >
-            <Image
-              src="/icons/chevron-left.svg"
-              alt="Back"
-              width={24}
-              height={24}
-              className="text-[#1A1A1A]"
-            />
-          </button>
+          <BackButton onClick={handleBackClick} />
         )}
         <h1 className="text-3xl font-bold text-[#1A1A1A] tracking-[-2%]">
           {title}

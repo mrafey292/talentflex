@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TopBar from "@/components/layout/TopBar";
 import SearchAndFilter from "./SearchAndFilter";
 import AIToolsGrid from "./AIToolsGrid";
 import AIToolDetailPage from "./AIToolDetailPage";
 import { aiTools, AITool } from "./aiToolsData";
-import { useNavigation } from "@/contexts/NavigationContext";
 
 type FilterCategory = "All" | "Agents" | "Tools";
 
@@ -14,11 +13,6 @@ export default function AIMarketplacePage() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTool, setSelectedTool] = useState<AITool | null>(null);
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('ai-marketplace');
-  }, [setCurrentPage]);
 
   const filteredTools = aiTools.filter(tool => {
     const matchesCategory = activeFilter === "All" || tool.category === activeFilter;

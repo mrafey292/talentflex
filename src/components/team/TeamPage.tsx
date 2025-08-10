@@ -1,24 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
-import { useNavigation } from "@/contexts/NavigationContext";
+import TopBar from '@/components/layout/TopBar';
 
 export default function TeamPage() {
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('team');
-  }, [setCurrentPage]);
 
   return (
     <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
-        <div className="p-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-[#1A1A1A]">My Team</h1>
-            <button className="bg-[#3D80F8] text-white rounded-lg px-6 py-2 hover:bg-blue-600">
-              Invite Members
-            </button>
-          </div>
+      <TopBar title="My Team" />
+      <div className="p-8">
+        <div className="flex justify-end mb-8">
+          <button className="bg-[#3D80F8] text-white rounded-lg px-6 py-2 hover:bg-blue-600">
+            Invite Members
+          </button>
+        </div>
           
           <div className="space-y-6">
             {/* Team Overview */}

@@ -3,8 +3,6 @@
 import TopBar from "@/components/layout/TopBar";
 import Sidebar from "@/components/layout/Sidebar";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useNavigation } from "@/contexts/NavigationContext";
 import { useRouter } from "next/navigation";
 
 interface LessonPageProps {
@@ -12,12 +10,7 @@ interface LessonPageProps {
 }
 
 export default function LessonPage({ params }: LessonPageProps) {
-  const { setCurrentPage } = useNavigation();
   const router = useRouter();
-
-  useEffect(() => {
-    setCurrentPage('skills');
-  }, [setCurrentPage]);
 
   const handleBackClick = () => {
     router.push(`/course/${params.id}`);

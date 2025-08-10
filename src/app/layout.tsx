@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavigationWrapper from "@/components/providers/NavigationWrapper";
 
 export const metadata: Metadata = {
   title: "TalentFlex - Dashboard",
@@ -15,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <NavigationWrapper>
-          {children}
-        </NavigationWrapper>
+        {children}
       </body>
     </html>
   );

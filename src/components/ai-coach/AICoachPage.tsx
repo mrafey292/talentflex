@@ -1,24 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
-import { useNavigation } from "@/contexts/NavigationContext";
+import TopBar from '@/components/layout/TopBar';
 
 export default function AICoachPage() {
-  const { setCurrentPage } = useNavigation();
-
-  useEffect(() => {
-    setCurrentPage('ai-coach');
-  }, [setCurrentPage]);
 
   return (
     <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
-        <div className="p-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-[#1A1A1A]">AI Career Coach</h1>
-            <button className="bg-[#3D80F8] text-white rounded-lg px-6 py-2 hover:bg-blue-600">
-              New Session
-            </button>
-          </div>
+      <TopBar title="AI Career Coach" />
+      <div className="p-8">
+        <div className="flex justify-end mb-8">
+          <button className="bg-[#3D80F8] text-white rounded-lg px-6 py-2 hover:bg-blue-600">
+            New Session
+          </button>
+        </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Chat */}
