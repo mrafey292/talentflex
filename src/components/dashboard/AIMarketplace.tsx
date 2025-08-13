@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { type AITool } from "@/types";
 
 const aiTools: AITool[] = [
@@ -94,12 +95,17 @@ function AIToolCard({ tool }: { tool: AITool }) {
 }
 
 export default function AIMarketplace() {
+  const router = useRouter();
+  
   return (
     <div className="bg-white border border-[#EDEDED] rounded-3xl p-6 space-y-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold text-[#1A1A1A]">AI Marketplace</h2>
-        <button className="text-sm text-[#676767] hover:text-[#1A1A1A]">
+        <button 
+          onClick={() => router.push('/ai-marketplace')}
+          className="text-sm text-[#676767] hover:text-[#1A1A1A] transition-colors"
+        >
           View All
         </button>
       </div>

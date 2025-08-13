@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { TodoItem } from "@/types";
 
 const todoItems: TodoItem[] = [
@@ -58,9 +59,19 @@ function TodoItemCard({ item }: { item: TodoItem }) {
 }
 
 export default function TodoList() {
+  const router = useRouter();
+  
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold text-[#1A1A1A]">To-Do</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold text-[#1A1A1A]">To-Do</h2>
+        <button 
+          onClick={() => router.push('/roadmap')}
+          className="text-sm text-[#676767] hover:text-[#1A1A1A] transition-colors"
+        >
+          View All
+        </button>
+      </div>
       <div className="space-y-3">
         {todoItems.map((item) => (
           <TodoItemCard key={item.id} item={item} />

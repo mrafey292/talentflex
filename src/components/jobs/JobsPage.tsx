@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import TopBar from "@/components/layout/TopBar";
 
 interface FormData {
@@ -27,6 +28,7 @@ interface JobCard {
 }
 
 export default function JobsPage() {
+  const router = useRouter();
   const [showSwipeMode, setShowSwipeMode] = useState(false);
   const [showJobDetails, setShowJobDetails] = useState(false);
 
@@ -73,10 +75,6 @@ export default function JobsPage() {
     setShowSwipeMode(true);
   };
 
-  const handleStartSwiping = () => {
-    setShowJobDetails(true);
-  };
-
   const handleSwipeRight = () => {
     console.log("Swiped right - Interested");
     // Add logic for interested
@@ -98,7 +96,7 @@ export default function JobsPage() {
 
   if (showSwipeMode) {
     return (
-      <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
+      <div className="flex-1 bg-white rounded-tl-3xl min-h-screen flex flex-col">
         {/* Top Bar */}
         <TopBar 
           title="Job Match" 
@@ -107,9 +105,9 @@ export default function JobsPage() {
         />
         
         {/* Content */}
-        <div className="flex p-8 gap-16 h-full">
+        <div className="flex-1 flex justify-between items-stretch px-8 py-6 gap-8 bg-white">
           {/* Left Column - Form */}
-          <div className="w-[464px] space-y-8">
+          <div className="w-[464px] space-y-6 flex flex-col justify-center">
             {/* Header */}
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-black">Personalized Job Matching with AI</h2>
@@ -211,145 +209,181 @@ export default function JobsPage() {
               </div>
             </div>
 
-            <button 
-              onClick={handlePersonalizeJob}
-              className="w-full bg-[#3D80F8] text-white font-bold py-4 rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              Personalized My Job
-            </button>
+            <div className="flex gap-4">
+              <button 
+                onClick={handlePersonalizeJob}
+                className="flex-1 bg-[#3D80F8] text-white font-bold py-4 rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Personalized My Job
+              </button>
+              <button 
+                onClick={() => router.push('/jobs/list')}
+                className="px-6 py-4 border-2 border-[#3D80F8] text-[#3D80F8] font-bold rounded-lg hover:bg-[#3D80F8] hover:text-white transition-colors"
+              >
+                View All Jobs
+              </button>
+            </div>
           </div>
 
           {/* Right Column - Job Card */}
-          <div className="flex-1 relative">
+          <div className="flex items-center justify-center flex-1">
             <div 
-              className="relative w-full h-full bg-cover bg-center rounded-3xl overflow-hidden cursor-pointer"
+              className="relative w-[520px] h-full min-h-[700px] bg-[#EDEDED] rounded-3xl overflow-hidden cursor-pointer"
               style={{
-                backgroundImage: `linear-gradient(180deg, rgba(26, 26, 26, 0) 0%, rgba(26, 26, 26, 1) 100%), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 916" fill="%23EDEDED"><rect width="520" height="916"/></svg>')`
+                backgroundImage: `linear-gradient(180deg, rgba(26, 26, 26, 0) 0%, rgba(26, 26, 26, 1) 100%), url('/images/job-bg.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
               }}
               onClick={handleCardClick}
             >
               {/* Top badges */}
-              <div className="absolute top-6 left-6 flex gap-2">
-                {sampleJobs[0].tags.map((tag, index) => (
-                  <span 
-                    key={index}
-                    className={`px-3 py-1.5 rounded-xl text-sm font-normal ${
-                      tag === "High Match" 
-                        ? "bg-white/80 text-black flex items-center gap-2" 
-                        : "bg-white/80 text-black"
-                    }`}
-                  >
-                    {tag === "High Match" && (
-                      <div className="w-5 h-5 bg-[#EDEDED] rounded-full flex items-center justify-center">
-                        <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5 13l4 4L19 7" />
-                        </svg>
-                      </div>
-                    )}
-                    {tag}
+              <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
+                <div className="flex gap-2">
+                  <span className="px-3 py-1.5 rounded-xl text-[14px] font-normal bg-white/80 backdrop-blur-sm text-black leading-[20px] tracking-[-0.02em]">
+                    Full Time
                   </span>
-                ))}
+                  <span className="px-3 py-1.5 rounded-xl text-[14px] font-normal bg-white/80 backdrop-blur-sm text-black leading-[20px] tracking-[-0.02em]">
+                    Remote
+                  </span>
+                  <span className="px-3 py-1.5 rounded-xl text-[14px] font-normal bg-white/80 backdrop-blur-sm text-black flex items-center gap-2 leading-[20px] tracking-[-0.02em]">
+                    <div className="w-5 h-5 bg-[#EDEDED] rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-[#111827]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    High Match
+                  </span>
+                </div>
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSkip();
                   }}
-                  className="border border-[#D3D3D3] text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                  className="border border-[#D3D3D3] bg-transparent text-white text-[12px] font-bold px-4 py-2 rounded-lg hover:bg-white/10 transition-colors leading-[16px] tracking-[-0.02em]"
                 >
                   Skip
                 </button>
               </div>
 
-              {/* Job content */}
-              <div className="absolute bottom-6 left-6 right-6 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-2xl font-bold text-white">{sampleJobs[0].title}</h3>
+              {/* Job content - shows differently based on state */}
+              {!showJobDetails ? (
+                // Before clicking - content at bottom
+                <div className="absolute bottom-6 left-6 right-6 space-y-3">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-[24px] font-bold text-white leading-[32px] tracking-[-0.02em]">{sampleJobs[0].title}</h3>
                       <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-[#D9D9D9] rounded-full"></div>
-                        <span className="text-base text-white">{sampleJobs[0].company}</span>
+                        <div className="w-6 h-6 bg-[#D9D9D9] rounded-full overflow-hidden">
+                          <img src="/images/company-logo.jpg" alt="Company" className="w-full h-full object-cover" />
+                        </div>
+                        <span className="text-[16px] font-normal text-white leading-[24px] tracking-[-0.02em]">{sampleJobs[0].company}</span>
                       </div>
                     </div>
-                    <div className="flex items-end gap-1">
-                      <span className="text-3xl font-bold text-white">{sampleJobs[0].salary}</span>
-                      <span className="text-sm text-[#D3D3D3]">/mo</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-[32px] font-bold text-white leading-[40px] tracking-[-0.02em]">{sampleJobs[0].salary}</span>
+                      <span className="text-[14px] font-normal text-[#D3D3D3] leading-[20px] tracking-[-0.02em]">/mo</span>
                     </div>
                   </div>
-                </div>
-
-                {showJobDetails && (
-                  <p className="text-sm text-[#D3D3D3] leading-relaxed h-10 overflow-hidden">
+                  <p className="text-[14px] font-normal text-[#D3D3D3] leading-[20px] tracking-[-0.02em] line-clamp-2">
                     {sampleJobs[0].description}
                   </p>
-                )}
-              </div>
-
-              {/* Navigation arrows */}
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwipeLeft();
-                }}
-                className="absolute left-6 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-              >
-                <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSwipeRight();
-                }}
-                className="absolute right-6 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
-              >
-                <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Overlay with instructions */}
-              {!showJobDetails && (
-                <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
-                  <div className="text-center text-white space-y-8 max-w-sm">
-                    <h3 className="text-2xl font-bold">Find Your Perfect Job – Swipe & Match!</h3>
-                    <div className="space-y-4">
-                      <p className="text-sm text-[#EDEDED]">
-                        Our smart AI learns from your choices to recommend better jobs every time. Start swiping and land your dream job faster
-                      </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-center gap-3">
-                          <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                            <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.33} d="M5 13l4 4L19 7" />
-                            </svg>
+                </div>
+              ) : (
+                // After clicking - expanded content with requirements
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A] to-[#1A1A1A]/0 min-h-[537px]">
+                  <div className="px-6 pb-6 pt-52">
+                    <div className="space-y-3">
+                      <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-2">
+                          <h3 className="text-[24px] font-bold text-white leading-[32px] tracking-[-0.02em]">{sampleJobs[0].title}</h3>
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 bg-[#D9D9D9] rounded-full overflow-hidden">
+                              <img src="/images/company-logo.jpg" alt="Company" className="w-full h-full object-cover" />
+                            </div>
+                            <span className="text-[16px] font-normal text-white leading-[24px] tracking-[-0.02em]">{sampleJobs[0].company}</span>
                           </div>
-                          <span className="text-sm text-[#EDEDED]">Button Right (Interested)</span>
                         </div>
-                        <div className="flex items-center justify-center gap-3">
-                          <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                            <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.33} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </div>
-                          <span className="text-sm text-[#EDEDED]">Button Left (Not Interested)</span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-[32px] font-bold text-white leading-[40px] tracking-[-0.02em]">{sampleJobs[0].salary}</span>
+                          <span className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">/mo</span>
                         </div>
                       </div>
-                      <p className="text-sm text-[#EDEDED]">
-                        Or you can choose to skip if you don&apos;t want to select it. The description will appear when you click once on the card
+                      <p className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">
+                        {sampleJobs[0].description}
                       </p>
+                      
+                      {/* Requirements section */}
+                      <div className="mt-4 space-y-2">
+                        <h4 className="text-[16px] font-bold text-white leading-[24px] tracking-[-0.02em]">Requirements</h4>
+                        <div className="space-y-2">
+                          <div className="flex items-start gap-2">
+                            <div className="w-5 h-5 rounded-full border border-white p-[3px] flex-shrink-0 mt-0.5">
+                              <svg className="w-full h-full text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">2+ years of experience in graphic design</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <div className="w-5 h-5 rounded-full border border-white p-[3px] flex-shrink-0 mt-0.5">
+                              <svg className="w-full h-full text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">Proficiency in Adobe Creative Suite (Photoshop, Illustrator, InDesign)</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <div className="w-5 h-5 rounded-full border border-white p-[3px] flex-shrink-0 mt-0.5">
+                              <svg className="w-full h-full text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">Strong portfolio showcasing branding, digital, and print designs</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <div className="w-5 h-5 rounded-full border border-white p-[3px] flex-shrink-0 mt-0.5">
+                              <svg className="w-full h-full text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                            <span className="text-[14px] font-normal text-[#EDEDED] leading-[20px] tracking-[-0.02em]">Ability to work in a fast-paced environment and meet deadlines</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <button 
-                      onClick={handleStartSwiping}
-                      className="bg-[#3D80F8] text-white font-bold px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
-                    >
-                      Start Now
-                    </button>
                   </div>
                 </div>
               )}
+
+              {/* Navigation arrows - only show when description is not expanded */}
+              {!showJobDetails && (
+                <>
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSwipeLeft();
+                    }}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  >
+                    <svg className="w-[14px] h-[14px] text-[#1A1A1A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSwipeRight();
+                    }}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  >
+                    <svg className="w-[14px] h-[14px] text-[#1A1A1A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </>
+              )}
+
             </div>
           </div>
         </div>
@@ -358,7 +392,7 @@ export default function JobsPage() {
   }
 
   return (
-    <div className="flex-1 bg-white rounded-tl-3xl overflow-hidden">
+    <div className="flex-1 bg-white rounded-tl-3xl min-h-screen flex flex-col">
       {/* Top Bar */}
       <TopBar 
         title="Job Match" 
@@ -367,9 +401,9 @@ export default function JobsPage() {
       />
       
       {/* Content */}
-      <div className="flex p-8 gap-16">
+      <div className="flex-1 flex justify-between items-stretch px-8 py-6 gap-8 bg-white">
         {/* Left Column - Form */}
-        <div className="w-[464px] space-y-8">
+        <div className="w-[464px] space-y-6 flex flex-col justify-center">
           {/* Header */}
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-black">Personalized Job Matching with AI</h2>
@@ -504,9 +538,11 @@ export default function JobsPage() {
         </div>
 
         {/* Right Column - Placeholder */}
-        <div className="flex-1 bg-[#EDEDED] rounded-3xl flex items-center justify-center">
-          <div className="text-center text-[#676767]">
-            <p className="text-lg">Job cards will appear here after personalization</p>
+        <div className="flex items-center justify-center flex-1">
+          <div className="w-[520px] h-full min-h-[700px] bg-[#EDEDED] rounded-3xl flex items-center justify-center">
+            <div className="text-center text-[#676767]">
+              <p className="text-lg">Job cards will appear here after personalization</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function Schedule() {
+  const router = useRouter();
   const timeSlots = [
     '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'
   ];
@@ -42,7 +45,10 @@ export default function Schedule() {
               </button>
             </div>
           </div>
-          <button className="text-sm text-[#676767] hover:text-[#1A1A1A]">
+          <button 
+            onClick={() => router.push('/roadmap')}
+            className="text-sm text-[#676767] hover:text-[#1A1A1A] transition-colors"
+          >
             View All
           </button>
         </div>
